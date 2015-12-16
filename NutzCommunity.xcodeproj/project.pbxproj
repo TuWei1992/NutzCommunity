@@ -14,18 +14,7 @@
 		5B7F7C681C2136F700BAC0CC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5B7F7C661C2136F700BAC0CC /* Main.storyboard */; };
 		5B7F7C6A1C2136F700BAC0CC /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5B7F7C691C2136F700BAC0CC /* Images.xcassets */; };
 		5B7F7C6D1C2136F700BAC0CC /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5B7F7C6B1C2136F700BAC0CC /* LaunchScreen.xib */; };
-		5B7F7C791C2136F700BAC0CC /* NutzCommunityTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B7F7C781C2136F700BAC0CC /* NutzCommunityTests.m */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		5B7F7C731C2136F700BAC0CC /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 5B7F7C511C2136F700BAC0CC /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 5B7F7C581C2136F700BAC0CC;
-			remoteInfo = NutzCommunity;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		5B7F7C591C2136F700BAC0CC /* Nutz社区.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Nutz社区.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -38,9 +27,6 @@
 		5B7F7C671C2136F700BAC0CC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		5B7F7C691C2136F700BAC0CC /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		5B7F7C6C1C2136F700BAC0CC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
-		5B7F7C721C2136F700BAC0CC /* NutzCommunityTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NutzCommunityTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		5B7F7C771C2136F700BAC0CC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		5B7F7C781C2136F700BAC0CC /* NutzCommunityTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NutzCommunityTests.m; sourceTree = "<group>"; };
 		921F402AD0CC272D4B8A1C7F /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		B396E91214D888BEE3AC3AAF /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		DD6C0A32A8FDFDA5DD8CF929 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
@@ -52,13 +38,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				22BFEDF58E24228487E7D04C /* libPods.a in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		5B7F7C6F1C2136F700BAC0CC /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -78,7 +57,6 @@
 			isa = PBXGroup;
 			children = (
 				5B7F7C5B1C2136F700BAC0CC /* NutzCommunity */,
-				5B7F7C751C2136F700BAC0CC /* NutzCommunityTests */,
 				5B7F7C5A1C2136F700BAC0CC /* Products */,
 				0B1CCCEB382598A6C864E4C2 /* Pods */,
 				E2605AC1D5763C3D08837CD0 /* Frameworks */,
@@ -89,7 +67,6 @@
 			isa = PBXGroup;
 			children = (
 				5B7F7C591C2136F700BAC0CC /* Nutz社区.app */,
-				5B7F7C721C2136F700BAC0CC /* NutzCommunityTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -114,23 +91,6 @@
 			children = (
 				5B7F7C5D1C2136F700BAC0CC /* Info.plist */,
 				5B7F7C5E1C2136F700BAC0CC /* main.m */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		5B7F7C751C2136F700BAC0CC /* NutzCommunityTests */ = {
-			isa = PBXGroup;
-			children = (
-				5B7F7C781C2136F700BAC0CC /* NutzCommunityTests.m */,
-				5B7F7C761C2136F700BAC0CC /* Supporting Files */,
-			);
-			path = NutzCommunityTests;
-			sourceTree = "<group>";
-		};
-		5B7F7C761C2136F700BAC0CC /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				5B7F7C771C2136F700BAC0CC /* Info.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -165,24 +125,6 @@
 			productReference = 5B7F7C591C2136F700BAC0CC /* Nutz社区.app */;
 			productType = "com.apple.product-type.application";
 		};
-		5B7F7C711C2136F700BAC0CC /* NutzCommunityTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 5B7F7C7F1C2136F700BAC0CC /* Build configuration list for PBXNativeTarget "NutzCommunityTests" */;
-			buildPhases = (
-				5B7F7C6E1C2136F700BAC0CC /* Sources */,
-				5B7F7C6F1C2136F700BAC0CC /* Frameworks */,
-				5B7F7C701C2136F700BAC0CC /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				5B7F7C741C2136F700BAC0CC /* PBXTargetDependency */,
-			);
-			name = NutzCommunityTests;
-			productName = NutzCommunityTests;
-			productReference = 5B7F7C721C2136F700BAC0CC /* NutzCommunityTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -194,10 +136,6 @@
 				TargetAttributes = {
 					5B7F7C581C2136F700BAC0CC = {
 						CreatedOnToolsVersion = 6.3;
-					};
-					5B7F7C711C2136F700BAC0CC = {
-						CreatedOnToolsVersion = 6.3;
-						TestTargetID = 5B7F7C581C2136F700BAC0CC;
 					};
 				};
 			};
@@ -215,7 +153,6 @@
 			projectRoot = "";
 			targets = (
 				5B7F7C581C2136F700BAC0CC /* Nutz社区 */,
-				5B7F7C711C2136F700BAC0CC /* NutzCommunityTests */,
 			);
 		};
 /* End PBXProject section */
@@ -228,13 +165,6 @@
 				5B7F7C681C2136F700BAC0CC /* Main.storyboard in Resources */,
 				5B7F7C6D1C2136F700BAC0CC /* LaunchScreen.xib in Resources */,
 				5B7F7C6A1C2136F700BAC0CC /* Images.xcassets in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		5B7F7C701C2136F700BAC0CC /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -284,23 +214,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		5B7F7C6E1C2136F700BAC0CC /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				5B7F7C791C2136F700BAC0CC /* NutzCommunityTests.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		5B7F7C741C2136F700BAC0CC /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 5B7F7C581C2136F700BAC0CC /* Nutz社区 */;
-			targetProxy = 5B7F7C731C2136F700BAC0CC /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		5B7F7C661C2136F700BAC0CC /* Main.storyboard */ = {
@@ -424,40 +338,6 @@
 			};
 			name = Release;
 		};
-		5B7F7C801C2136F700BAC0CC /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = NutzCommunityTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/NutzCommunity.app/NutzCommunity";
-			};
-			name = Debug;
-		};
-		5B7F7C811C2136F700BAC0CC /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = NutzCommunityTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/NutzCommunity.app/NutzCommunity";
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -475,15 +355,6 @@
 			buildConfigurations = (
 				5B7F7C7D1C2136F700BAC0CC /* Debug */,
 				5B7F7C7E1C2136F700BAC0CC /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		5B7F7C7F1C2136F700BAC0CC /* Build configuration list for PBXNativeTarget "NutzCommunityTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				5B7F7C801C2136F700BAC0CC /* Debug */,
-				5B7F7C811C2136F700BAC0CC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
