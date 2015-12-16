@@ -28,7 +28,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		5B7F7C591C2136F700BAC0CC /* NutzCommunity.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = NutzCommunity.app; path = "Nutz社区.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		5B7F7C591C2136F700BAC0CC /* Nutz社区.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Nutz社区.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5B7F7C5D1C2136F700BAC0CC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5B7F7C5E1C2136F700BAC0CC /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		5B7F7C601C2136F700BAC0CC /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -88,7 +88,7 @@
 		5B7F7C5A1C2136F700BAC0CC /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				5B7F7C591C2136F700BAC0CC /* NutzCommunity.app */,
+				5B7F7C591C2136F700BAC0CC /* Nutz社区.app */,
 				5B7F7C721C2136F700BAC0CC /* NutzCommunityTests.xctest */,
 			);
 			name = Products;
@@ -162,7 +162,7 @@
 			);
 			name = "Nutz社区";
 			productName = NutzCommunity;
-			productReference = 5B7F7C591C2136F700BAC0CC /* NutzCommunity.app */;
+			productReference = 5B7F7C591C2136F700BAC0CC /* Nutz社区.app */;
 			productType = "com.apple.product-type.application";
 		};
 		5B7F7C711C2136F700BAC0CC /* NutzCommunityTests */ = {
