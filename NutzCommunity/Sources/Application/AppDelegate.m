@@ -7,9 +7,13 @@
 //
 
 #import "AppDelegate.h"
+#import "SplashManager.h"
 #import <RESideMenu/RESideMenu.h>
-#import "RootViewController.h"
-#import "ViewController.h"
+#import "SlideViewController.h"
+#import "TopicsViewController.h"
+#import "BaseNavViewController.h"
+#import "UIImage+Blur.h"
+#import "UIImage+Color.h"
 
 @interface AppDelegate ()
 
@@ -22,49 +26,108 @@
     
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     
-    RootViewController *rootVC = [[RootViewController alloc] init];
-    ViewController *vc = [ViewController new];
+    // 自定义样式
+    [self customizeInterface];
+    // 白色状态栏
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
     
-    RESideMenu *sideMenuVC = [[RESideMenu alloc] initWithContentViewController:rootVC
-                                                                    leftMenuViewController:vc
+    SlideViewController *slideVC = [[SlideViewController alloc] init];
+    TopicsViewController *vc     = [[TopicsViewController alloc] init];
+    BaseNavViewController *navVC = [[BaseNavViewController alloc] initWithRootViewController:vc];
+    RESideMenu *sideMenuVC       = [[RESideMenu alloc] initWithContentViewController:navVC
+                                                                    leftMenuViewController:slideVC
                                                                    rightMenuViewController:nil];
-    sideMenuVC.parallaxEnabled = NO;
-    sideMenuVC.scaleContentView = YES;
-    sideMenuVC.contentViewScaleValue = 0.95;
-    sideMenuVC.scaleMenuView = NO;
-    sideMenuVC.contentViewShadowEnabled = YES;
-    sideMenuVC.contentViewShadowRadius = 4.5;
-    sideMenuVC.view.backgroundColor = COLOR_WHITE;
-    sideMenuVC.backgroundImage = [UIImage imageNamed:@"nutz.jpg"];
+    sideMenuVC.parallaxEnabled                    = NO;
+    sideMenuVC.bouncesHorizontally                = NO;
+    sideMenuVC.scaleContentView                   = YES;
+    sideMenuVC.contentViewScaleValue              = 0.94;
+    sideMenuVC.scaleBackgroundImageView           = NO;
+    sideMenuVC.scaleMenuView                      = NO;
+    sideMenuVC.fadeMenuView                       = NO;
+    sideMenuVC.contentViewShadowEnabled           = YES;
+    sideMenuVC.contentViewShadowRadius            = 5.5;
+    sideMenuVC.contentViewInPortraitOffsetCenterX = SIDE_MENU_CENTERX_OFFSET;
+    //sideMenuVC.backgroundImage = [[UIImage imageNamed:@"nutz2.jpg"] blurredImageWithRadius:50];
+    sideMenuVC.delegate                           = (id)slideVC;
     
     // Make it a root controller
     self.window.rootViewController = sideMenuVC;
-    
     [self.window makeKeyAndVisible];
+    
+    [self setupLaunchImage];
     
     return YES;
 }
 
+- (void)setupLaunchImage {
+    
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"splashs" ofType:@"plist"];
+    NSArray *array=[NSArray arrayWithContentsOfFile:path];
+    
+    int x = arc4random() % array.count;
+    
+    float imgWidth = SCREEN_WIDTH *2/3;
+    float imgHeight = SCREEN_WIDTH/4 *2/3;
+    SplashManager *sp = [SplashManager sharedInstance];
+    NSString *launchImage = [sp getXCassetsLaunchImage];
+    sp.iconFrame = CGRectMake((SCREEN_WIDTH - imgWidth) / 2, SCREEN_HEIGHT/7, imgWidth, imgHeight);
+    [sp loadLaunchImage:array[x]
+                 iconName:@"main_logo"
+              appearStyle:JRApperaStyleOne
+                  bgImage: launchImage
+                disappear:JRDisApperaStyleOne
+           descriptionStr:@"Nutz社区@nutz.cn"];
+}
+
+- (void)customizeInterface {
+    // 设置Nav的背景色和title色
+    UINavigationBar *navigationBarAppearance = [UINavigationBar appearance];
+    NSDictionary *textAttributes = nil;
+    textAttributes = @{
+                       NSFontAttributeName: [UIFont fontWithName:FONT_DEFAULE_BOLD size:NAVBAR_FONT_SIZE],
+                       NSForegroundColorAttributeName: COLOR_MAIN_TEXT,
+                       };
+    
+    // 后退按钮的定制在UIViewController+Swizzle里面
+    [navigationBarAppearance setTitleTextAttributes:textAttributes];
+    [navigationBarAppearance setTintColor:COLOR_MAIN_TEXT];// 返回按钮的箭头颜色
+    [navigationBarAppearance setBackgroundColor:COLOR_CLEAR];
+    [navigationBarAppearance setBarTintColor:COLOR_WHITE];
+    [navigationBarAppearance setBackgroundImage:[UIImage imageWithColor:COLOR_WHITE]
+                             forBarPosition:UIBarPositionTop
+                                 barMetrics:UIBarMetricsDefault];
+    [navigationBarAppearance setBarStyle:UIBarStyleDefault];
+    [navigationBarAppearance setShadowImage:[UIImage new]];
+    [navigationBarAppearance setTranslucent:YES];
+    
+    [[UITextField appearance] setTextColor:COLOR_MAIN_TEXT];
+    [[UITextField appearance] setTintColor:COLOR_MAIN_TEXT];//设置UITextField的光标颜色
+    [[UITextView appearance]  setTextColor:COLOR_MAIN_TEXT];
+    [[UITextView appearance]  setTintColor:COLOR_MAIN_TEXT];//设置UITextView的光标颜色
+    [[UIButton appearance]    setTintColor:COLOR_MAIN_TEXT];
+    
+    [[UITextView appearance]  setFont:[UIFont fontWithName:FONT_DEFAULE size:[UIFont labelFontSize]]];
+    [[UITextField appearance] setFont:[UIFont fontWithName:FONT_DEFAULE size:[UIFont labelFontSize]]];
+}
+
 - (void)applicationWillResignActive:(UIApplication *)application {
-    // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
-    // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
+    
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application {
-    // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
-    // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+    
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
-    // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+    
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
-    // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+   
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
-    // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+  
 }
 
 @end

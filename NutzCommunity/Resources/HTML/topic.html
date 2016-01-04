@@ -1,0 +1,153 @@
+<html>
+<head lang="zh-cn">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" type="text/css" href="prettify.css">
+    <link rel="stylesheet" type="text/css" href="render.css">
+    <link rel="stylesheet" type="text/css" href="topic.css">
+    <title>详情</title>
+</head>
+<body> 
+    <div class="webview-detail">
+        <div class="header">
+            <h4 id="topic-title">加载中...</h4>
+            <div class="topic-header">
+                <img class="avatar float-left" id="author-avatar" src="comment_profile_mars.png">
+                <div class="user-info float-left">
+                    <span id="name">Author</span>
+                    <span id="pub-time">发布于:0分钟前</span>
+                </div>
+                <div class="user-info float-right text-align-right">
+                    <span id="topic-type">问答</span>
+                    <span id="view-info">0次浏览</span> 
+                </div>
+            </div>
+        </div>
+        <img src="shuiyin.png" class="jinghua" id="jinghua" />
+        <div class="topic">
+            <div id="topic-content">
+                加载中...
+            </div>
+        </div>
+        <div id="emptyAnswer">
+            <p>暂时没有人回复</p>
+        </div>
+        <div id="replies-list">
+            
+        </div>
+    </div>
+
+    <script type="text/javascript" src="jq2.1.4.js"></script>
+    <script type="text/javascript" src="dateutil.js"></script>
+    <script type="text/javascript" src="artTemplate.js"></script>
+    <script type="text/javascript" src="prettify.js"></script>
+    <script type="text/javascript" src="topic.js"></script>
+    
+    <script id="reply" type="text/html">
+        <div class="topic" id="topic_{{id}}">
+            <div class="topic-header">
+                <img class="avatar small-avatar float-left" onClick="window.nutz.goUserInfo('{{author.loginname}}')" src="https://nutz.cn/yvr/u/{{author.loginname}}/avatar">
+                <div class="user-info float-left">
+                    <span id="name">{{author.loginname}}</span>
+                    <span id="pub-time"> • <b id="like_{{id}}" class="zan">{{ups.length}}</b>赞</span>
+                </div>
+                <div class="user-info float-right text-align-right">
+                    <span id="view-info">{{dateDiff(create_at)}}</span>
+                    <span id="topic-type">{{index}}楼</span>
+                </div>
+            </div>
+            <div id="content">
+                {{content}}
+            </div>
+            <div class="topic-footer">
+                <div class="topic-like float-left">
+                    <input type="hidden" id="chk_{{id}}" value="{{liked(ups) ? 1 : 0}}" />
+                    <img src="{{liked(ups) ? 'checkbox_good_check.png' : 'checkbox_good_normal.png'}}" id="like_img_{{id}}" onClick="like('{{author.loginname}}','{{id}}');"/>
+                </div>
+                <div class="topic-like float-right">
+                <img src="checkbox_comment_normal.png" onClick="reply('{{author.loginname}}', '{{id}}');"/> 
+                </div>
+                <div class="clear"></div>
+            </div>
+        </div>
+    </script>
+    <script type="text/javascript">
+        var index = 0;
+        function renderData(topic){  
+            var author = topic.author;
+            var curUserId = author.id;;
+
+            //setup topic header
+            $("#name").html(author.loginname);
+            $("#topic-title").html(topic.title);
+            $("#topic-type").html(topicType(topic.top, topic.tab));
+            $("#pub-time").html("发布于:" + getDateDiff(topic.create_at));
+            $("#view-info").html(topic.visit_count + "次浏览");
+            $("#topic-content").html(topic.content);
+            $("#author-avatar").attr("src", "https://nutz.cn/yvr/u/"+author.loginName+"/avatar");
+            if(topic.good){
+                $("#jinghua").show();
+            }
+
+            //设置模板
+            template.config("escape", false);
+            template.helper("dateDiff",function(date){
+                return getDateDiff(date);
+            });
+            
+            //是否赞了
+            template.helper("liked", function(likes){
+                return likes.contains(curUserId);
+            });
+
+            //设置回复
+            var replies = topic.replies;
+            if(replies.length > 0){
+                $("#emptyAnswer").hide();
+            }
+            $("#replies-list").empty();
+            index = 0;
+            for(var i = 0; i < replies.length; i++){
+                var reply = replies[i];
+                reply.index = (index+=1);
+                var replyHtml = template('reply', reply);
+                $("#replies-list").append(replyHtml);
+            }
+
+            //代码着色
+            prettyPrint();
+
+            //有可能内容很多, 所以渲染完后停止刷新
+            // setTimeout(function(){
+            //     window.nutz.stopRefresh();
+            // }, 600);
+        }
+
+        //添加回复
+        function addReply(replyStr){
+            var reply = eval(replyStr);
+            reply.index = (index+=1);
+            var replyHtml = template('reply', reply);
+            $("#replies-list").append(replyHtml);
+            $("#webview-detail").scrollTop($("#topic_" + reply.id).offset().top + 20);
+        }
+    </script>
+    <script type="text/javascript">         
+    
+        JSBridge(function(bridge) {
+            bridge.init(function(message, responseCallback) {});
+            bridge.registerHandler('renderData', function(data, responseCallback) {
+                var topic = jQuery.parseJSON(data);
+                renderData(topic);
+            });
+            bridge.callHandler('htmlPageLoaded', {});
+            
+        });
+ 
+    </script>
+</body>
+</html>
