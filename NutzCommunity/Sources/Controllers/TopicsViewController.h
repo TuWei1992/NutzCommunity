@@ -11,4 +11,9 @@
 
 @interface TopicsViewController : SCPullRefreshViewController
 
++ (instancetype)topicsWithTabType:(NSString *)tabType;
+
+@property (nonatomic, strong) NSString *tabType;
+@property (nonatomic, strong) NSMutableArray    *topics;
+
 @end

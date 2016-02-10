@@ -144,12 +144,12 @@ static CGFloat const kRefreshHeight = 44.0f;
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     
     // Refresh
-    CGFloat offsetY = -scrollView.contentOffsetY - self.tableViewInsertTop  - 25;
+    CGFloat offsetY = -scrollView.contentOffsetY - self.tableViewInsertTop  - 0;
     
-    self.refreshView.timeOffset = MAX(offsetY / 60.0, 0);
+    self.refreshView.timeOffset = MAX(offsetY / 64.0, 0);
     
     // LoadMore
-    if ((self.loadMoreBlock && scrollView.contentSizeHeight > 300) || !self.hadLoadMore) {
+    if (((self.loadMoreBlock && scrollView.contentSizeHeight > 300) || !self.hadLoadMore) && !self.noMore) {
         self.loadMoreView.hidden = NO;
     } else {
         self.loadMoreView.hidden = YES;
@@ -162,7 +162,7 @@ static CGFloat const kRefreshHeight = 44.0f;
     CGFloat loadMoreOffset = - (scrollView.contentSizeHeight - self.view.height - scrollView.contentOffsetY + scrollView.contentInsetBottom);
     
     if (loadMoreOffset > 0) {
-        self.loadMoreView.timeOffset = MAX(loadMoreOffset / 60.0, 0);
+        self.loadMoreView.timeOffset = MAX(loadMoreOffset / 64.0, 0);
     } else {
         self.loadMoreView.timeOffset = 0;
     }
@@ -186,7 +186,7 @@ static CGFloat const kRefreshHeight = 44.0f;
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
     // loadMore
     CGFloat loadMoreOffset = scrollView.contentSizeHeight - self.view.height - scrollView.contentOffsetY + scrollView.contentInsetBottom;
-    if (loadMoreOffset <= 0 && self.loadMoreBlock && !self.isLoadingMore && scrollView.contentSizeHeight > [UIScreen mainScreen].bounds.size.height) {
+    if (loadMoreOffset <= 0 && self.loadMoreBlock && !self.isLoadingMore && scrollView.contentSizeHeight > [UIScreen mainScreen].bounds.size.height && !self.noMore) {
         [self beginLoadMore];
     }
 }
@@ -287,6 +287,28 @@ static CGFloat const kRefreshHeight = 44.0f;
         self.tableView.tableFooterView = self.tableFooterView;
     }
     
+}
+
+#pragma mark EmptyState
+- (BOOL)emptyDataSetShouldAllowScroll:(UIScrollView *)scrollView {
+    return YES;
+}
+
+- (BOOL)emptyDataSetShouldAnimateImageView:(UIScrollView *)scrollView{
+    return YES;
+}
+
+- (CAAnimation *)imageAnimationForEmptyDataSet:(UIScrollView *)scrollView {
+    CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath: @"opacity"];
+    
+    animation.fromValue = @(0);
+    animation.toValue = @(1);
+    
+    animation.duration = 0.4;
+    animation.cumulative = YES;
+    animation.repeatCount = NO;
+    
+    return animation;
 }
 
 @end

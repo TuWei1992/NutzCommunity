@@ -38,6 +38,7 @@
     [self.requestSerializer setValue:agent               forHTTPHeaderField:@"User-Agent"];
     [self.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
     [self.requestSerializer setValue:@"gzip, deflate"    forHTTPHeaderField:@"Accept-Encoding"];
+    [self.requestSerializer setValue:stringFromDeviceVersion([SDVersion deviceVersion]) forHTTPHeaderField:@"phone-model"];
     
     return self;
 }
@@ -223,6 +224,7 @@
 - (void)uploadImage:(UIImage *)image
                path:(NSString *)path
                name:(NSString *)name
+             params:(NSDictionary *)params
             success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
             failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure
            progerss:(void (^)(CGFloat progressValue))progress{
@@ -236,16 +238,17 @@
     formatter.dateFormat = @"yyyyMMddHHmmss";
     NSString *str = [formatter stringFromDate:[NSDate date]];
     // 这里可以加上用户ID
-    NSString *fileName = [NSString stringWithFormat:@"%@_%@.jpg", @"", str];
-    DEBUG_LOG(@"\nUploadImageSize\n%@ : %.0f", fileName, (float)data.length/1024);
+    NSString *fileName = [NSString stringWithFormat:@"%@_%@.jpg", @"image", str];
+    DEBUG_LOG(@"\nUploadImageSize\n%@ : %.0f, \nparams:%@", fileName, (float)data.length/1024, params);
     
-    AFHTTPRequestOperation *operation = [self POST:path parameters:nil constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+    AFHTTPRequestOperation *operation = [self POST:path parameters:params constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
         [formData appendPartWithFileData:data name:name fileName:fileName mimeType:@"image/jpeg"];
     } success:^(AFHTTPRequestOperation *operation, id responseObject) {
         DEBUG_LOG(@"Success: %@ ***** %@", operation.responseString, responseObject);
         id error = [self handleResponse:responseObject];
         if (error && failure) {
             failure(operation, error);
+            [self showError:error];
         }else{
             success(operation, responseObject);
         }
@@ -254,6 +257,7 @@
         if (failure) {
             failure(operation, error);
         }
+        [self showError:error];
     }];
     
     [operation setUploadProgressBlock:^(NSUInteger bytesWritten, long long totalBytesWritten, long long totalBytesExpectedToWrite) {
@@ -269,8 +273,8 @@
 - (NSString *)tipFromError:(NSError *)error {
     if (error && error.userInfo) {
         NSMutableString *tipStr = [[NSMutableString alloc] init];
-        if ([error.userInfo objectForKey:@"msg"]) {
-            NSArray *msgArray = [[error.userInfo objectForKey:@"msg"] allValues];
+        if ([error.userInfo objectForKey:@"message"]) {
+            NSArray *msgArray = [[error.userInfo objectForKey:@"message"] allValues];
             NSUInteger num = [msgArray count];
             for (int i = 0; i < num; i++) {
                 NSString *msgStr = [msgArray objectAtIndex:i];
@@ -305,11 +309,13 @@
 - (void)showHudTipStr:(NSString *)tipStr {
     if (tipStr && tipStr.length > 0) {
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:KEY_WINDOW animated:YES];
-        hud.mode = MBProgressHUDModeText;
+        hud.mode = MBProgressHUDModeCustomView;
         hud.labelText = tipStr;
+        // 设置图片
+        hud.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:[NSString stringWithFormat:@"MBProgressHUD.bundle/%@", @"error.png"]]];
         hud.margin = 10.f;
         hud.removeFromSuperViewOnHide = YES;
-        [hud hide:YES afterDelay:1.0];
+        [hud hide:YES afterDelay:1.2];
     }
 }
 
@@ -320,21 +326,16 @@
 -(id)handleResponse:(id)responseJSON autoShowError:(BOOL)autoShowError{
     NSError *error = nil;
     
-    //code为非0值时，表示有错
-//    NSNumber *resultCode = [responseJSON valueForKeyPath:@"code"];
-//    
-//    if (resultCode.intValue != 0) {
-//        error = [NSError errorWithDomain:MAIN_HOST code:resultCode.intValue userInfo:responseJSON];
-//        if (autoShowError) {
-//            [self showError:error];
-//        }
-//        
-////        if (resultCode.intValue == 1000) {//用户未登录
-////            [Login doLogout];
-////            [((AppDelegate *)[UIApplication sharedApplication].delegate) setupLoginViewController];
-////        }
-//        
-//    }
+    // 存在判断条件
+    if([responseJSON valueForKeyPath:@"success"] != nil){
+        NSNumber *success = [responseJSON valueForKeyPath:@"success"];
+        if(!success.boolValue){
+            error = [NSError errorWithDomain:MAIN_HOST code:-1 userInfo:responseJSON];
+            if (autoShowError) {
+                [self showError:error];
+            }
+        }
+    }
     return error;
 }
 

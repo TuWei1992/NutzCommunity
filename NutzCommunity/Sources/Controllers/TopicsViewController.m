@@ -7,44 +7,34 @@
 //
 
 #import "TopicsViewController.h"
+#import <RESideMenu/RESideMenu.h>
+#import "UITableView+FDTemplateLayoutCell.h"
 #import "TopicTableViewCell.h"
 #import "UITableView+Common.h"
-#import "UITableView+FDTemplateLayoutCell.h"
-#import <RESideMenu/RESideMenu.h>
 #import "TopicDetailViewController.h"
+#import "NewTopicViewController.h"
 
 static NSString *CellIdentifier = @"TopicCellIdentifier";
 
 @interface TopicsViewController ()<UITableViewDelegate, UITableViewDataSource>
-@property (nonatomic, assign) int            page;
-@property (nonatomic, strong) NSMutableArray *topics;
+@property (nonatomic, assign) int  page;
 @end
 
 @implementation TopicsViewController
 
++ (instancetype)topicsWithTabType:(NSString *)tabType {
+    TopicsViewController *vc = [TopicsViewController new];
+    vc.tabType = tabType;
+    return vc;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"Nutz社区";
-    [self setupBarItem];
-    
+    self.title = [Topic tabTypeName:self.tabType];
     [self beginRefresh];
-    
 }
-
 
 #pragma mark Custom Method
-- (void)setupBarItem {
-    UIBarButtonItem *leftItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"sideMenu"]
-                                                                 style:UIBarButtonItemStylePlain
-                                                                target:self
-                                                                action:@selector(openSideMenu)];
-    self.navigationItem.leftBarButtonItem = leftItem;
-}
-
-- (void)openSideMenu {
-    [self.sideMenuViewController presentLeftMenuViewController];
-}
-
 - (void)loadView {
     [super loadView];
     
@@ -53,7 +43,8 @@ static NSString *CellIdentifier = @"TopicCellIdentifier";
     self.tableView.separatorStyle  = UITableViewCellSeparatorStyleNone;
     self.tableView.delegate        = self;
     self.tableView.dataSource      = self;
-    self.tableView.backgroundColor = COLOR_WHITE;
+    self.tableView.emptyDataSetSource = self;
+    self.tableView.emptyDataSetDelegate = self;
     [self.tableView registerNib:[UINib nibWithNibName:@"TopicTableViewCell" bundle:nil] forCellReuseIdentifier:CellIdentifier];
     
     [self.view addSubview:self.tableView];
@@ -61,7 +52,7 @@ static NSString *CellIdentifier = @"TopicCellIdentifier";
     @weakify(self);
     self.loadMoreBlock = ^{
         @strongify(self);
-        [[APIManager manager] topicsByTab:@"ask" page:self.page + 1 callback:^(NSArray* topics, NSError *error) {
+        [[APIManager manager] topicsByTab:self.tabType page:self.page + 1 callback:^(NSArray* topics, NSError *error) {
             
             if(topics){
                 //refresh
@@ -71,7 +62,14 @@ static NSString *CellIdentifier = @"TopicCellIdentifier";
                 
                 [self.topics addObjectsFromArray:topics];
                 [self.tableView reloadData];
-                self.page += 1;
+                
+                if(topics.count >= NUTZ_PAGE_SIZE){
+                    self.page += 1;
+                }else{
+                    // 没有更多
+                    self.noMore = YES;
+                }
+                
             }
             
             [self endRefresh];
@@ -81,9 +79,9 @@ static NSString *CellIdentifier = @"TopicCellIdentifier";
     self.refreshBlock = ^{
         @strongify(self);
         self.page = 0;
+        self.noMore = NO;
         self.loadMoreBlock();
     };
-    
 }
 
 #pragma mark - TableViewDelegate
@@ -116,10 +114,42 @@ static NSString *CellIdentifier = @"TopicCellIdentifier";
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    TopicDetailViewController *detailVC = [TopicDetailViewController new];
-    detailVC.topic = self.topics[indexPath.row];
-    [self.navigationController pushViewController:detailVC animated:YES];
+    Topic *topic = self.topics[indexPath.row];
+
+    [self.navigationController pushViewController:HHROUTER(FORMAT_STRING(@"/topicDetail/%@", topic.ID))
+                                         animated:YES];
 }
 
+#pragma mark EmptyState
+- (UIImage *)imageForEmptyDataSet:(UIScrollView *)scrollView {
+    return [UIImage imageNamed:@"empty_detail"];
+}
+
+- (NSAttributedString *)titleForEmptyDataSet:(UIScrollView *)scrollView {
+    NSString *text = @"当前版块无话题";
+    
+    NSDictionary *attributes = @{NSFontAttributeName: [UIFont boldSystemFontOfSize:20.0f],
+                                 NSForegroundColorAttributeName: [UIColor grayColor]};
+    
+    return [[NSAttributedString alloc] initWithString:text attributes:attributes];
+}
+
+- (NSAttributedString *)descriptionForEmptyDataSet:(UIScrollView *)scrollView {
+    NSString *text = @"这里还没有话题, 赶快点击 \"+\", 发帖抢沙发吧~";
+    
+    NSMutableParagraphStyle *paragraph = [NSMutableParagraphStyle new];
+    paragraph.lineBreakMode = NSLineBreakByWordWrapping;
+    paragraph.alignment = NSTextAlignmentCenter;
+    
+    NSDictionary *attributes = @{NSFontAttributeName: [UIFont systemFontOfSize:16.0f],
+                                 NSForegroundColorAttributeName: [UIColor lightGrayColor],
+                                 NSParagraphStyleAttributeName: paragraph};
+    
+    return [[NSAttributedString alloc] initWithString:text attributes:attributes];
+}
+
+- (CGFloat)verticalOffsetForEmptyDataSet:(UIScrollView *)scrollView {
+    return -self.tableView.tableHeaderView.frame.size.height/2.0f - 64;
+}
 
 @end

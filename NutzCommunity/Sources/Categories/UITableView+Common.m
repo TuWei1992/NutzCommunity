@@ -114,7 +114,7 @@
         layer.fillColor = [UIColor colorWithWhite:1.f alpha:0.8f].CGColor;
     }
     
-    CGColorRef lineColor = [UIColor colorWithHexString:@"0xdddddd"].CGColor;
+    CGColorRef lineColor = self.separatorColor.CGColor;
     CGColorRef sectionLineColor = self.separatorColor.CGColor;
     
     if (indexPath.row == 0 && indexPath.row == [self numberOfRowsInSection:indexPath.section]-1) {
@@ -162,7 +162,7 @@
     }else{
         left = leftSpace;
     }
-    lineLayer.frame = CGRectMake(CGRectGetMinX(bounds)+left, top, bounds.size.width-left, lineHeight);
+    lineLayer.frame = CGRectMake(CGRectGetMinX(bounds)+left, top, self.frame.size.width-left, lineHeight);
     lineLayer.backgroundColor = color;
     [layer addSublayer:lineLayer];
 }

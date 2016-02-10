@@ -7,8 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "UIScrollView+EmptyDataSet.h"
+#import "BaseViewController.h"
 
-@interface SCPullRefreshViewController : UIViewController <UIScrollViewDelegate>
+@interface SCPullRefreshViewController : BaseViewController <UIScrollViewDelegate,DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
 
@@ -21,6 +23,7 @@
 - (void)endRefresh;
 
 @property (nonatomic, copy) void (^loadMoreBlock)();
+@property (nonatomic, assign) BOOL noMore;
 
 - (void)beginLoadMore;
 - (void)endLoadMore;

@@ -158,7 +158,7 @@ static NSUInteger const kBubbleCout = 5;
     layer.frame = (CGRect){arc4random() % ((NSInteger)self.width - 30) + 15, arc4random() % ((NSInteger)self.height - 30) + 15, 15, 15};
     layer.position = kLayerPosition;
     layer.cornerRadius = 7.5;
-    layer.backgroundColor = [UIColor colorWithRed:0.183 green:0.337 blue:0.445 alpha:1.000].CGColor;
+    layer.backgroundColor = KCOLOR_MAIN_BLUE.CGColor;
     layer.opacity = 0.0;
     [self.layer addSublayer:layer];
     

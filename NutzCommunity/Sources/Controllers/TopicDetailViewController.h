@@ -8,8 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface TopicDetailViewController : UIViewController
+@interface TopicDetailViewController : BaseViewController
 
-@property (nonatomic, strong) Topic *topic;
+@property (nonatomic, strong) NSString *topicId;
 
 @end

@@ -1,28 +1,34 @@
-
+*{
+    -webkit-text-size-adjust：none;
+}
 html,body{
     font-family: "AvenirNextCondensed-Regular", "Open Sans", "Helvetica Neue", Helvetica, Arial, STHeiti, "Microsoft Yahei", sans-serif;
     -webkit-font-smoothing: antialiased;
     font-size: 18px;
     margin: 0;
-    background: #FFFFFE;
+/*    background: #FFFFFE;*/
+background:rgba(0,0,0,0);
     padding: 0;
 }
 
 body {
     margin: 0;
     padding: 0;
-/*    border-top: 0.5px solid #DDD;*/
     color: #495663;
+    -webkit-touch-callout:none ;
+    -webkit-user-select:none ;
 }
 
 /*markdown 样式*/
 .webview-detail {
-    font-size: 0.875rem;
+    font-size: 1em;
     line-height: 23px;
     overflow: hidden;
     word-wrap: break-word;
 /*    color: #495663;*/
     color:#5c6c7c;
+    font-size: 15px;
+    -webkit-text-size-adjust: none;
 }
 
 .webview-detail .three_wrapper img.emotion.monkey {
@@ -75,7 +81,7 @@ body {
     cursor: text;
     position: relative;
     font-weight: 700;
-    line-height: 2rem;
+    line-height: 2em;
 }
 
 .webview-detail h1 .octicon-link, .webview-detail h2 .octicon-link, .webview-detail h3 .octicon-link, .webview-detail h4 .octicon-link, .webview-detail h5 .octicon-link, .webview-detail h6 .octicon-link {
@@ -100,15 +106,15 @@ body {
 }
 
 .webview-detail p, .webview-detail blockquote, .webview-detail ul, .webview-detail ol, .webview-detail dl, .webview-detail table, .webview-detail pre {
-    margin: 15px 0;
+    margin: 10px 0;
 }
 
 .webview-detail hr {
-    border: none;
-    border-top: 0.5px dashed #ddd;
-    height: 1px;
+    border-top: 1px dotted rgba(90, 106, 121, 0.69);
+    border-left: none;
+    border-right:none;
+    border-right:none;
     padding: 0;
-    margin: 30px 0;
 }
 
 .webview-detail ul, .webview-detail ol {
@@ -180,7 +186,7 @@ body {
     max-width: 100%;
     box-sizing: border-box;
     background: #fff;
-    padding: 6px;
+    padding: 5px;
     margin: 0.25rem 0;
     border: 0.5px solid #eee;
     border-radius: 3px;
@@ -308,12 +314,7 @@ body {
     display: inline-block;
     overflow: auto;
     vertical-align: middle;
-    padding: 0;
-}
-
-.webview-detail code:before, .webview-detail code:after, .webview-detail tt:before, .webview-detail tt:after {
-    content: "\00a0";
-    letter-spacing: -0.2em;
+    padding: 5px 5px 2px 5px;
 }
 
 .webview-detail del code {
@@ -325,32 +326,20 @@ body {
     white-space: nowrap;
 }
 
-.webview-detail pre > code {
-    margin: 0;
-    padding: 0;
-    white-space: pre;
-    border: none;
-    background: transparent;
-    font-family: Consolas, Menlo, "Liberation Mono", Courier, monospace !important;
-}
-
-.webview-detail .highlight pre, .webview-detail pre {
+.webview-detail pre {
     background-color: #f8f8f8;
-    border: 1px solid #ddd;
+    border: 0.5px solid #ddd;
     font-size: 13px;
     line-height: 19px;
     overflow: auto;
-    padding: 6px 10px;
+    padding: 1em;
     border-radius: 3px;
-}
-
-.webview-detail pre {
-    word-wrap: normal;
+    position:relative;
 }
 
 .webview-detail pre code, .webview-detail pre tt {
     margin: 0;
-    padding: 0;
+    padding: 0px !important;
     background-color: transparent;
     border: none;
     word-wrap: normal;
@@ -358,17 +347,14 @@ body {
     display: inline;
     overflow: initial;
     line-height: inherit;
-}
-.webview-detail pre code:before, .webview-detail pre code:after, .webview-detail pre tt:before, .webview-detail pre tt:after {
-    content: normal;
+    white-space: pre;
+    border: none;
+    background: transparent;
+    font-family: Consolas, Menlo, "Liberation Mono", Courier, monospace !important;
 }
 
 .webview-detail table tr {
     font-size: 0.875rem;
-}
-
-.webview-detail {
-    font-size: 15px;
 }
 
 .webview-detail h1{

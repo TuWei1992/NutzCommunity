@@ -1,6 +1,9 @@
+
 Array.prototype.contains = function(item){
   return RegExp("\\b"+item+"\\b").test(this);
 };
+
+
 // ios webview js bridge
 function JSBridge(callback) {
     if (window.WebViewJavascriptBridge) {
@@ -32,28 +35,33 @@ function likeCallback(result, replyId){
         var checked = $("#chk_" + replyId);
         var img = $("#like_img_" + replyId);
         var like = $("#like_" + replyId);
-        var likeNum = parseInt(like.html());
+        var likeNum = parseInt(like.html(),10);
 
         //点击之前没有like
         if(checked.val() == 0){
             img.attr("src", "checkbox_good_check.png");
-            like.html(likeNum + 1);
+            like.html((likeNum + 1) + "赞");
             checked.val(1);
         }else{
             img.attr("src", "checkbox_good_normal.png");
-            like.html(likeNum - 1);
+            like.html((likeNum - 1) + "赞");
             checked.val(0);
         }
     }
 }
 
 /**
- * 回复某人的评论
- * @param authorName 评论作者用户名
- * @param replyId 对应的回复 id
+ *  回复评论
+ *
+ *  @param authorName 评论者loginname
+ *  @param replyId    回复Id号
+ *
  */
 function reply(authorName, replyId){
-    window.nutz.replyComment(authorName, replyId);
+    console.log(authorName);
+    window.nutz.callHandler("replyTopic", {"authorName" : authorName, "replyId" : replyId}, function(data){
+        addReply(data);
+    });
 }
 
 function topicType(isTop, origin){
@@ -74,4 +82,62 @@ function topicType(isTop, origin){
     }else{
         return "其他"
     }
+}
+
+function bindFontScaleTool(reply){
+    var toolbar = "<div class='codetool'>" +
+                    "<button onclick='scaleCodeFontSize(this, false);'>缩小</button>" +
+                    "<button onclick='scaleCodeFontSize(this, true);'>放大</button>" +
+                 "</div>";
+    if(reply){
+        $(reply).find('pre').each(function(i){
+            $(this).append(toolbar);
+            $(this).attr("show_ctrl","0")
+            $(this).bind('click', function(){
+                showCodeTool($(this));
+            });
+        });
+    }else{
+        $('pre').each(function(i){
+            $(this).append(toolbar);
+            $(this).attr("show_ctrl","0")
+            $(this).bind('click', function(){
+                showCodeTool($(this));
+            });
+        });
+    }
+}
+
+/**
+ *  缩放代码块字体
+ *
+ *  @param preBlock pre div
+ *
+ */
+function showCodeTool(pre){
+    //缩放控制
+    var ctrl = pre.find(".codetool");
+    
+    //正在显示 缩放控制
+    if(pre.attr("show_ctrl") == 1){
+        pre.attr("show_ctrl", "0");
+        ctrl.hide();
+    }else{
+        pre.attr("show_ctrl", "1");
+        ctrl.show();
+    }
+}
+
+function scaleCodeFontSize(btn, zoom){
+    //父级
+    var pre = $(btn).parent().parent().find("code");
+    //父级字体大小
+    var fontSize = parseFloat(pre.css('font-size') , 10);
+    // 改变字体大小
+    if(zoom){
+        fontSize += 1;
+    }else{
+        fontSize -= 1;
+    }
+    pre.css("font-size", fontSize + "px");
 }

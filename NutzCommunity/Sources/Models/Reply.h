@@ -7,12 +7,13 @@
 //
 
 #import "BaseModel.h"
+#import "User.h"
 
 @protocol Reply @end
 
 @interface Reply : BaseModel
 
-@property (nonatomic, assign) int id;
+@property (nonatomic, assign) NSString *ID;
 @property (nonatomic, strong) User *author;
 @property (nonatomic, strong) NSString *content;
 @property (nonatomic, strong) NSArray *ups;

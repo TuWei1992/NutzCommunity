@@ -147,9 +147,9 @@
         
         self.desLabel.text = des;
         self.desLabel.layer.shadowOpacity = 0.8;
-        self.desLabel.layer.shadowColor = COLOR_BLACK.CGColor;
+        self.desLabel.layer.shadowColor = KCOLOR_BLACK.CGColor;
         self.desLabel.layer.shadowOffset = CGSizeMake(0.5, 0.5);
-        self.desLabel.font = [UIFont systemFontOfSize:12];
+        self.desLabel.font = [UIFont fontWithName:FONT_DEFAULE_BOLD size:12];
         self.desLabel.textColor = [UIColor whiteColor];
         [self.launchimage addSubview:_desLabel];
     }

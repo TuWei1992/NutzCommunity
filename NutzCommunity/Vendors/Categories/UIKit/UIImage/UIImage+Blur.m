@@ -31,7 +31,7 @@
 //| ----------------------------------------------------------------------------
 - (UIImage *)darkImage
 {
-    UIColor *tintColor = [UIColor colorWithWhite:0.11 alpha:0.73];
+    UIColor *tintColor = [UIColor colorWithWhite:0.11 alpha:0.53];
     return [self blurredImageWithSize:CGSizeMake(40, 40) tintColor:tintColor saturationDeltaFactor:1.8 maskImage:nil];
 }
 

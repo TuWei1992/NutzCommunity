@@ -18,7 +18,6 @@
         //设置返回按钮(backBarButtonItem的图片不能设置；如果用leftBarButtonItem属性，则iOS7自带的滑动返回功能会失效)
         self.navigationItem.leftBarButtonItem = [self backButton];
     }
-    
     [self customViewDidLoad];
 }
 
@@ -37,15 +36,15 @@
     [self customviewWillAppear:animated];
 }
 
-
 #pragma mark BackBtn M
 - (UIBarButtonItem *)backButton {
-    
-    //定制后退按钮
-    UIBarButtonItem *backBtn = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"back"] style:UIBarButtonItemStylePlain target:self action:@selector(goBackSwizzle)];
-    backBtn.title = @"";
-    
-    return backBtn;
+    UIButton *bkBtn = [UIButton buttonWithType:UIButtonTypeSystem];
+    [bkBtn setFrame:CGRectMake(0.0f, 0.0f, 20.0f, 20.0f)];
+    [bkBtn setImage:[UIImage imageNamed:@"back"] forState:UIControlStateNormal];
+    [bkBtn addTarget:self action:@selector(goBackSwizzle) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *bkItem = [[UIBarButtonItem alloc] initWithCustomView:bkBtn];
+         
+    return bkItem;
 }
 
 - (void)goBackSwizzle {

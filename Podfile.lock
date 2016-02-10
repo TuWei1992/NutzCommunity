@@ -1,21 +1,23 @@
 PODS:
-  - AFNetworking (2.2.4):
-    - AFNetworking/NSURLConnection (= 2.2.4)
-    - AFNetworking/NSURLSession (= 2.2.4)
-    - AFNetworking/Reachability (= 2.2.4)
-    - AFNetworking/Security (= 2.2.4)
-    - AFNetworking/Serialization (= 2.2.4)
-    - AFNetworking/UIKit (= 2.2.4)
-  - AFNetworking/NSURLConnection (2.2.4):
+  - AFNetworking (2.6.3):
+    - AFNetworking/NSURLConnection (= 2.6.3)
+    - AFNetworking/NSURLSession (= 2.6.3)
+    - AFNetworking/Reachability (= 2.6.3)
+    - AFNetworking/Security (= 2.6.3)
+    - AFNetworking/Serialization (= 2.6.3)
+    - AFNetworking/UIKit (= 2.6.3)
+  - AFNetworking/NSURLConnection (2.6.3):
     - AFNetworking/Reachability
     - AFNetworking/Security
     - AFNetworking/Serialization
-  - AFNetworking/NSURLSession (2.2.4):
-    - AFNetworking/NSURLConnection
-  - AFNetworking/Reachability (2.2.4)
-  - AFNetworking/Security (2.2.4)
-  - AFNetworking/Serialization (2.2.4)
-  - AFNetworking/UIKit (2.2.4):
+  - AFNetworking/NSURLSession (2.6.3):
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+  - AFNetworking/Reachability (2.6.3)
+  - AFNetworking/Security (2.6.3)
+  - AFNetworking/Serialization (2.6.3)
+  - AFNetworking/UIKit (2.6.3):
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
   - BlocksKit (2.2.5):
@@ -33,25 +35,35 @@ PODS:
   - BlocksKit/UIKit (2.2.5):
     - BlocksKit/Core
     - BlocksKit/DynamicDelegate
-  - FXKeychain (1.5.3)
+  - DZNEmptyDataSet (1.7.3)
+  - FMDB (2.5):
+    - FMDB/standard (= 2.5)
+  - FMDB/common (2.5)
+  - FMDB/standard (2.5):
+    - FMDB/common
+  - FMDBHelper (0.1.4):
+    - FMDB (= 2.5)
+  - FrameAccessor (2.0)
+  - GHMarkdownParser (0.1.2)
   - JDStatusBarNotification (1.5.3)
-  - JSONModel (1.1.2)
+  - JSBadgeView (1.4.1)
+  - JSONModel (1.2.0)
+  - LGPlusButtonsView (1.1.1)
+  - LGSideMenuController (1.0.10)
   - Mantle (2.0.6):
     - Mantle/extobjc (= 2.0.6)
   - Mantle/extobjc (2.0.6)
   - Masonry (0.6.4)
   - MBProgressHUD (0.9.2)
-  - MWFeedParser (1.0.1):
-    - MWFeedParser/FeedParser (= 1.0.1)
-    - MWFeedParser/NSDate+InternetDateTime (= 1.0.1)
-    - MWFeedParser/NSString+HTML (= 1.0.1)
-  - MWFeedParser/FeedParser (1.0.1):
-    - MWFeedParser/NSDate+InternetDateTime
-    - MWFeedParser/NSString+HTML
-  - MWFeedParser/NSDate+InternetDateTime (1.0.1)
-  - MWFeedParser/NSString+HTML (1.0.1)
-  - NSString-Hashes (1.2.2)
   - NYXImagesKit (2.3)
+  - ODRefreshControl (1.2)
+  - ReactiveCocoa (2.4.7):
+    - ReactiveCocoa/UI (= 2.4.7)
+  - ReactiveCocoa/Core (2.4.7):
+    - ReactiveCocoa/no-arc
+  - ReactiveCocoa/no-arc (2.4.7)
+  - ReactiveCocoa/UI (2.4.7):
+    - ReactiveCocoa/Core
   - RegexKitLite (4.0)
   - RESideMenu (4.0.7)
   - SDWebImage (3.7.3):
@@ -59,33 +71,47 @@ PODS:
   - SDWebImage/Core (3.7.3)
 
 DEPENDENCIES:
-  - AFNetworking (~> 2.2.0)
+  - AFNetworking (= 2.6.3)
   - BlocksKit (~> 2.2.0)
-  - FXKeychain (~> 1.5)
+  - DZNEmptyDataSet
+  - FMDB
+  - FMDBHelper
+  - FrameAccessor
+  - GHMarkdownParser
   - JDStatusBarNotification
+  - JSBadgeView
   - JSONModel
+  - LGPlusButtonsView
+  - LGSideMenuController
   - Mantle
   - Masonry
   - MBProgressHUD (~> 0.8)
-  - MWFeedParser (~> 1.0.1)
-  - NSString-Hashes (~> 1.2.1)
   - NYXImagesKit (~> 2.3)
+  - ODRefreshControl
+  - ReactiveCocoa (= 2.4.7)
   - RegexKitLite (~> 4.0)
   - RESideMenu
   - SDWebImage (= 3.7.3)
 
 SPEC CHECKSUMS:
-  AFNetworking: caca0799b310f0c3bf1fc1af45145fc96972bcab
+  AFNetworking: cb8d14a848e831097108418f5d49217339d4eb60
   BlocksKit: 7f422b971407001178d181a43b99014ea2591fe6
-  FXKeychain: 2fe54573946ffef634f4e2a2851e6c8f4ea15e76
+  DZNEmptyDataSet: dd7cca17c1d07dfa78956859b1e70a52505678ef
+  FMDB: 96e8f1bcc1329e269330f99770ad4285d9003e52
+  FMDBHelper: 77278b126649c56ad5e78d102ff12b0aad2069b5
+  FrameAccessor: 443a13e58e23a10ff22180da0897b28c3f6abf66
+  GHMarkdownParser: 14cbf59d0ab9450017d843dffd4a3ef691e5bd77
   JDStatusBarNotification: 29413865af11c862c17180610b0f46a21118b412
-  JSONModel: 216584d0311b053ff714f1d6cb700dbf890847bc
+  JSBadgeView: 3861ddee41094284d9468e6d0af5107f703aaac5
+  JSONModel: 12523685c4b623553ccf844bbbf7007624317b2c
+  LGPlusButtonsView: 57878cd3d461d0ee2042f5b7b25d1c017e22a084
+  LGSideMenuController: 8682bdbd0008c1acfbce95eaf96cc3657bca5f95
   Mantle: 299966b00759634931699f69cb6a30b9239b944d
   Masonry: 281802d04d787ea2973179ee8bcb50500579ede2
   MBProgressHUD: 1569cf7ace17a8bac47aabfbb8580a49690386d1
-  MWFeedParser: 2cf646014c1baf6ad1b08c480b40a08180079247
-  NSString-Hashes: c3848d809e92650e4fb17db5d8cc4bd2aa1eaddd
   NYXImagesKit: 8163e3335a40eaa173ca5bbbf81fafb57d3947eb
+  ODRefreshControl: 907e6149d72dde488d5917ccfabee5bd8d711a20
+  ReactiveCocoa: eb38dee0a0e698f73a9b25e5c1faea2bb4c79240
   RegexKitLite: c0e4c12e6e7de0769f3a3ed679f0f61604170661
   RESideMenu: f24c508404b49c667344c54aba7e590883533958
   SDWebImage: 1d2b1a1efda1ade1b00b6f8498865f8ddedc8a84

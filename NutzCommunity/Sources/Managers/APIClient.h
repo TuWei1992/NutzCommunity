@@ -67,6 +67,7 @@ typedef enum {
  *  @param image    图片
  *  @param path     REST路径
  *  @param name     图片Name
+ *  @param params   额外参数
  *  @param success  成功回调
  *  @param failure  失败回调
  *  @param progress 进程回调
@@ -74,6 +75,7 @@ typedef enum {
 - (void)uploadImage:(UIImage *)image
                path:(NSString *)path
                name:(NSString *)name
+             params:(NSDictionary *)params
             success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
             failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure
            progerss:(void (^)(CGFloat progressValue))progress;

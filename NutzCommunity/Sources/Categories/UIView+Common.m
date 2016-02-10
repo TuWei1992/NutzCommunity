@@ -11,40 +11,74 @@
 @implementation UIView (Common)
 
 - (void)addTopLineWidthLeftSpace:(CGFloat)leftSpace {
-    CGContextRef context = UIGraphicsGetCurrentContext();//获得当前view的图形上下文(context)
+    CAShapeLayer *layer = [[CAShapeLayer alloc] init];
     
-    CGContextSetLineWidth(context, 0.5);//制定了线的宽度
+    CGMutablePathRef pathRef = CGPathCreateMutable();
     
-    CGColorSpaceRef colorspace = CGColorSpaceCreateDeviceRGB();
-    CGFloat components[] = {0.3, 0.3, 0.3, 1.0};//颜色元素
-    CGColorRef color=CGColorCreate(colorspace,components);//这两行创建颜色
-    CGContextSetStrokeColorWithColor(context, color);//使用刚才创建好的颜色为上下文设置颜色
+    CGRect bounds = CGRectInset(self.bounds, 0, 0);
     
-    CGContextMoveToPoint(context, 0, 1);//设置线段的起始点
-    CGContextAddLineToPoint(context, self.frame.size.width, 1);//设置线段的终点
+    CGPathAddRect(pathRef, nil, bounds);
     
-    CGContextStrokePath(context);//绘制
-    CGColorSpaceRelease(colorspace);
-    CGColorRelease(color);
+    layer.path = pathRef;
     
+    CFRelease(pathRef);
+    if (self.backgroundColor) {
+        layer.fillColor = self.backgroundColor.CGColor;//layer的填充色用cell原本的颜色
+    }else{
+        layer.fillColor = [UIColor colorWithWhite:1.f alpha:0.8f].CGColor;
+    }
+    
+    CGColorRef lineColor = [UIColor colorWithWhite:0.85 alpha:1.000].CGColor;
+    
+    [self layer:layer addLineUp:YES andLong:YES andColor:lineColor andBounds:bounds withLeftSpace:0];
+    
+    [self.layer insertSublayer:layer atIndex:0];
 }
 
 - (void)addBottomLineWidthLeftSpace:(CGFloat)leftSpace {
-    CGContextRef context = UIGraphicsGetCurrentContext();//获得当前view的图形上下文(context)
+    CAShapeLayer *layer = [[CAShapeLayer alloc] init];
     
-    CGContextSetLineWidth(context, 0.5);//制定了线的宽度
+    CGMutablePathRef pathRef = CGPathCreateMutable();
     
-    CGColorSpaceRef colorspace = CGColorSpaceCreateDeviceRGB();
-    CGFloat components[] = {0.3, 0.3, 0.3, 1.0};//颜色元素
-    CGColorRef color=CGColorCreate(colorspace,components);//这两行创建颜色
-    CGContextSetStrokeColorWithColor(context, color);//使用刚才创建好的颜色为上下文设置颜色
+    CGRect bounds = CGRectInset(self.bounds, 0, 0);
     
-    CGContextMoveToPoint(context, 0, self.frame.size.height - 1);//设置线段的起始点
-    CGContextAddLineToPoint(context, self.frame.size.width, self.bounds.origin.x);//设置线段的终点
+    CGPathAddRect(pathRef, nil, bounds);
     
-    CGContextStrokePath(context);//绘制
-    CGColorSpaceRelease(colorspace);
-    CGColorRelease(color);
+    layer.path = pathRef;
+    
+    CFRelease(pathRef);
+    if (self.backgroundColor) {
+        layer.fillColor = self.backgroundColor.CGColor;//layer的填充色用cell原本的颜色
+    }else{
+        layer.fillColor = [UIColor colorWithWhite:1.f alpha:0.8f].CGColor;
+    }
+    
+    CGColorRef lineColor = [UIColor colorWithHexString:@"0xdddddd"].CGColor;
+    
+    [self layer:layer addLineUp:NO andLong:YES andColor:lineColor andBounds:bounds withLeftSpace:0];
+    
+    [self.layer insertSublayer:layer atIndex:0];}
+
+- (void)layer:(CALayer *)layer addLineUp:(BOOL)isUp andLong:(BOOL)isLong andColor:(CGColorRef)color andBounds:(CGRect)bounds withLeftSpace:(CGFloat)leftSpace{
+    
+    CALayer *lineLayer = [[CALayer alloc] init];
+    CGFloat lineHeight = (1.0f / [UIScreen mainScreen].scale);
+    CGFloat left, top;
+    if (isUp) {
+        top = 0;
+    }else{
+        top = bounds.size.height-lineHeight;
+    }
+    
+    if (isLong) {
+        left = 0;
+    }else{
+        left = leftSpace;
+    }
+    lineLayer.frame = CGRectMake(CGRectGetMinX(bounds)+left, top, bounds.size.width-left, lineHeight);
+    lineLayer.backgroundColor = color;
+    [layer addSublayer:lineLayer];
 }
+
 
 @end

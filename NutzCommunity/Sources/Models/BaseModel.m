@@ -8,14 +8,37 @@
 
 #import "BaseModel.h"
 
+@implementation JSONValueTransformer (CustomTransformer)
+
+- (NSDate *)NSDateFromNSString:(NSString *)string {
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    NSTimeZone *timeZone = [NSTimeZone timeZoneWithName:@"UTC"];
+    [formatter setTimeZone:timeZone];
+    [formatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ssZ"];
+    NSDate *dt = [formatter dateFromString:string];
+    return dt;
+}
+
+- (NSString *)JSONObjectFromNSDate:(NSDate *)date {
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    NSTimeZone *timeZone = [NSTimeZone timeZoneWithName:@"UTC"];
+    [formatter setTimeZone:timeZone];
+    [formatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss+0000"];
+    NSString *dt = [formatter stringFromDate:date];
+    return dt;
+}
+
+@end
+
 @implementation BaseModel
 
 +(BOOL)propertyIsOptional:(NSString*)propertyName {
     return YES;
 }
 
-+(JSONKeyMapper*)keyMapper {
-    JSONKeyMapper *mapper = [JSONKeyMapper mapperFromUnderscoreCaseToCamelCase];
++ (JSONKeyMapper*)keyMapper{
+    // json dic 键值对映射
+    JSONKeyMapper *mapper = [JSONKeyMapper mapper:[JSONKeyMapper mapperFromUnderscoreCaseToCamelCase] withExceptions:@{@"id" : @"ID"}];
     return mapper;
 }
 
@@ -25,12 +48,3 @@
 
 @end
 
-@implementation JSONValueTransformer (CustomTransformer)
-
-- (NSString *)JSONObjectFromNSDate:(NSDate *)date {
-    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"yyyy-MM-dd hh:mm:ss"];
-    return [formatter stringFromDate:date];
-}
-
-@end

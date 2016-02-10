@@ -2,13 +2,22 @@
 <head lang="zh-cn">
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0">
+    <meta name="viewport" content="initial-scale=1.0,maximum-scale=1.0,user-scalable=0">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="format-detection" content="telephone=no">
-    <link rel="stylesheet" type="text/css" href="prettify.css">
+    <link rel="stylesheet" type="text/css" href="doxy.css">
     <link rel="stylesheet" type="text/css" href="render.css">
     <link rel="stylesheet" type="text/css" href="topic.css">
+    <!--由于图片是由ajax加载, 所以只能使用js的photo browser-->
+    <!-- Core CSS file -->
+    <link rel="stylesheet" href="photoswipe.css">
+    <link rel="stylesheet" href="default-skin.css">
+    <!-- Core JS file -->
+    <script src="photoswipe.min.js"></script>
+    <!-- UI JS file -->
+    <script src="photoswipe-ui-default.min.js"></script>
+        
     <title>详情</title>
 </head>
 <body> 
@@ -18,7 +27,7 @@
             <div class="topic-header">
                 <img class="avatar float-left" id="author-avatar" src="comment_profile_mars.png">
                 <div class="user-info float-left">
-                    <span id="name">Author</span>
+                    <span id="name" onClick="">Author</span>
                     <span id="pub-time">发布于:0分钟前</span>
                 </div>
                 <div class="user-info float-right text-align-right">
@@ -29,7 +38,7 @@
         </div>
         <img src="shuiyin.png" class="jinghua" id="jinghua" />
         <div class="topic">
-            <div id="topic-content">
+            <div id="topic-content" class="imgArea">
                 加载中...
             </div>
         </div>
@@ -40,27 +49,94 @@
             
         </div>
     </div>
-
     <script type="text/javascript" src="jq2.1.4.js"></script>
+    <script type="text/javascript" src="fastclick.js"></script>
     <script type="text/javascript" src="dateutil.js"></script>
     <script type="text/javascript" src="artTemplate.js"></script>
     <script type="text/javascript" src="prettify.js"></script>
     <script type="text/javascript" src="topic.js"></script>
     
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+    <div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+        <!-- Background of PhotoSwipe.
+         It's a separate element as animating opacity is faster than rgba(). -->
+        <div class="pswp__bg"></div>
+        <!-- Slides wrapper with overflow:hidden. -->
+        <div class="pswp__scroll-wrap">
+            <!-- Container that holds slides.
+             PhotoSwipe keeps only 3 of them in the DOM to save memory.
+             Don't modify these 3 pswp__item elements, data is added later on. -->
+            <div class="pswp__container">
+                <div class="pswp__item"></div>
+                <div class="pswp__item"></div>
+                <div class="pswp__item"></div>
+            </div>
+            
+            <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+            <div class="pswp__ui pswp__ui">
+                <div class="pswp__top-bar">
+                    <!--  Controls are self-explanatory. Order can be changed. -->
+                    <div class="pswp__counter"></div>
+                    <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                    <button class="pswp__button pswp__button--share" title="Share"></button>
+                    <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                    <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                    <div class="pswp__preloader">
+                        <div class="pswp__preloader__icn">
+                            <div class="pswp__preloader__cut">
+                                <div class="pswp__preloader__donut"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                    <div class="pswp__share-tooltip"></div>
+                </div>
+                
+                <div class="pswp__caption">
+                    <div class="pswp__caption__center"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        var openPhotoSwipe = function(imgSrc, width, height){
+            
+            var pswpElement = document.querySelectorAll('.pswp')[0];
+            // build items array
+            var items = [
+                         {
+                            src: imgSrc,
+                            w: width,
+                            h: height
+                         }];
+                         
+             var options = {
+                 history: false,
+                 focus: false,
+                 shareEl: false,
+                 showAnimationDuration: 0,
+                 hideAnimationDuration: 0
+             };
+             
+             var gallery = new PhotoSwipe( pswpElement, PhotoSwipeUI_Default, items, options);
+             gallery.init();
+        };
+    </script>
     <script id="reply" type="text/html">
         <div class="topic" id="topic_{{id}}">
             <div class="topic-header">
-                <img class="avatar small-avatar float-left" onClick="window.nutz.goUserInfo('{{author.loginname}}')" src="https://nutz.cn/yvr/u/{{author.loginname}}/avatar">
+                <img class="avatar small-avatar float-left" onClick="window.nutz.callHandler('goUserDetail', '{{author.loginname}}')" src="https://nutz.cn/yvr/u/{{author.loginname}}/avatar">
                 <div class="user-info float-left">
                     <span id="name">{{author.loginname}}</span>
-                    <span id="pub-time"> • <b id="like_{{id}}" class="zan">{{ups.length}}</b>赞</span>
+                    <span id="pub-time"> • <b id="like_{{id}}" class="zan">{{ups.length}}赞</b></span>
                 </div>
                 <div class="user-info float-right text-align-right">
                     <span id="view-info">{{dateDiff(create_at)}}</span>
                     <span id="topic-type">{{index}}楼</span>
                 </div>
             </div>
-            <div id="content">
+            <div id="content" class="imgArea">
                 {{content}}
             </div>
             <div class="topic-footer">
@@ -69,7 +145,7 @@
                     <img src="{{liked(ups) ? 'checkbox_good_check.png' : 'checkbox_good_normal.png'}}" id="like_img_{{id}}" onClick="like('{{author.loginname}}','{{id}}');"/>
                 </div>
                 <div class="topic-like float-right">
-                <img src="checkbox_comment_normal.png" onClick="reply('{{author.loginname}}', '{{id}}');"/> 
+                <img src="checkbox_comment_normal.png" id="reply_img_{{id}}" onclick="reply('{{author.loginname}}', '{{id}}');"/>
                 </div>
                 <div class="clear"></div>
             </div>
@@ -77,18 +153,29 @@
     </script>
     <script type="text/javascript">
         var index = 0;
-        function renderData(topic){  
+        function renderData(topic){
+            
             var author = topic.author;
-            var curUserId = author.id;;
-
+            var curUserId = topic.cur_user_id;
+            
+            if(!topic.title || topic.title == ""){
+                topic.title = "无标题";
+            }
+            if(!topic.content || topic.content == ""){
+                topic.content = "<p>暂无内容</p>";
+            }
+            
             //setup topic header
-            $("#name").html(author.loginname);
             $("#topic-title").html(topic.title);
             $("#topic-type").html(topicType(topic.top, topic.tab));
             $("#pub-time").html("发布于:" + getDateDiff(topic.create_at));
             $("#view-info").html(topic.visit_count + "次浏览");
             $("#topic-content").html(topic.content);
-            $("#author-avatar").attr("src", "https://nutz.cn/yvr/u/"+author.loginName+"/avatar");
+            if(author){
+                $("#name").html(author.loginname);
+                $("#name").bind('click',function(){window.nutz.callHandler("goUserDetail", author.loginname);});
+                $("#author-avatar").attr("src", "https://nutz.cn/yvr/u/"+author.loginname+"/avatar");
+            }
             if(topic.good){
                 $("#jinghua").show();
             }
@@ -120,30 +207,59 @@
 
             //代码着色
             prettyPrint();
-
-            //有可能内容很多, 所以渲染完后停止刷新
-            // setTimeout(function(){
-            //     window.nutz.stopRefresh();
-            // }, 600);
+            //图片浏览
+            $(".imgArea img").click(function(){
+               var src = $(this).attr("src");
+               var height = $(this).height();
+               var width = $(this).width();
+               openPhotoSwipe(src, width*2, height*2);
+            });
+            //去掉点击延迟
+            $(function() {
+                FastClick.attach(document.body);
+            });
+            // 缩放字体工具
+            bindFontScaleTool(false);
+            setTimeout(function(){
+               //停止加载
+            }, 600);
         }
-
+    
         //添加回复
-        function addReply(replyStr){
-            var reply = eval(replyStr);
+        function addReply(treply){
+            //隐藏提示
+            if(index == 0){
+                $("#emptyAnswer").hide();
+            }
+            var reply = jQuery.parseJSON(treply);
             reply.index = (index+=1);
             var replyHtml = template('reply', reply);
             $("#replies-list").append(replyHtml);
-            $("#webview-detail").scrollTop($("#topic_" + reply.id).offset().top + 20);
+            //绑定缩放工具
+            bindFontScaleTool("#topic_"+reply.id);
+            // 滚动到底部
+            $('html,body').animate({scrollTop: $(document).height()}, 600);
         }
     </script>
     <script type="text/javascript">         
     
         JSBridge(function(bridge) {
             bridge.init(function(message, responseCallback) {});
+            
+            // 注册渲染方法
             bridge.registerHandler('renderData', function(data, responseCallback) {
                 var topic = jQuery.parseJSON(data);
                 renderData(topic);
+                //延时回调
+                setTimeout(function(){responseCallback();}, 300);
             });
+                 
+            // 注册添加回复方法
+            bridge.registerHandler('addReply', function(data, responseCallback) {
+                addReply(data);
+            });
+                 
+            // 通知页面加载完成
             bridge.callHandler('htmlPageLoaded', {});
             
         });
