@@ -2,7 +2,7 @@
 Nutz社区(nutz.cn) 客户端 iOS版
 
 ##下载
-https://itunes.apple.com/us/app/nutz-she-qu/id1082195150?l=zh&ls=1&mt=8(审核中)
+https://itunes.apple.com/us/app/nutz-she-qu/id1082195150?l=zh&ls=1&mt=8
 
 ##截图
 [点击这里](https://nutz.cn/yvr/t/0s20d8k2jkgsood9g9in7sv6du)
