@@ -15,7 +15,7 @@ pod install
 该项目是为[Nutz.cn](https://nutz.cn) 开发的iOS客户端, 主要借鉴了以及部分素材使用了[v2ex ios](https://github.com/singro/v2ex) 和[Coding](https://coding.net/u/coding/p/Coding-iOS/git)
 
 ##已知的 bug
-无
+see issue
 
 ##LICENSE
 MIT
